@@ -1,7 +1,7 @@
 {
   "name": "@zettelooo/build-tools",
   "description": "Zettel: Build helper tools",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "files": [
     "src/**",
     ".lintstagedrc.js"
