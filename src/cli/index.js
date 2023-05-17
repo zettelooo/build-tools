@@ -138,6 +138,33 @@ yargs(hideBin(process.argv))
   )
 
   .command(
+    'validate',
+    'Validates the correctness of peer dependencies',
+    argv => argv,
+    args => {
+      try {
+        const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
+        const checkPeerDependencies = path.join(
+          __dirname,
+          '..',
+          '..',
+          'node_modules',
+          '.bin',
+          'check-peer-dependencies'
+        )
+        const stdout = childProcess.execSync(`${checkPeerDependencies} --runOnlyOnRootDependencies`, {
+          cwd: rootPath,
+          encoding: 'utf8',
+          stdio: 'inherit',
+        })
+        // console.log(stdout)
+      } catch ({ stderr }) {
+        throwError(stderr)
+      }
+    }
+  )
+
+  .command(
     'preversion',
     'Pre-version common checks and actions',
     argv => argv,

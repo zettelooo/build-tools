@@ -24,6 +24,7 @@
     "test": "echo \"No test yet.\""
   },
   "dependencies": {
+    "check-peer-dependencies": "^4.2.0",
     "git-branch-is": "^4.0.0",
     "npm-check-updates": "^16.10.12",
     "rc-config-loader": "^4.1.2",

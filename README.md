@@ -37,6 +37,12 @@ Upgrade all the Zettel official dependencies (which belong to `@zettelooo/` scop
 $ zettel-bt update
 ```
 
+Validates the correctness of peer dependencies:
+
+```bash
+$ zettel-bt validate
+```
+
 Pre-version checks and actions (check branch is `master`):
 
 ```bash
