@@ -3,7 +3,8 @@
   "description": "Zettel: Build helper tools",
   "version": "1.2.2",
   "files": [
-    "src/**"
+    "src/**",
+    ".lintstagedrc.js"
   ],
   "types": "src/index.d.ts",
   "main": "src/index.js",
