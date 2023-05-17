@@ -4,7 +4,7 @@ const { findVersion } = require('./versioning')
 
 const OFFICIAL_DEPENDENCIES_PREFIX = '@zettelooo/'
 
-function findOfficialDependencies(projectPath) {
+function findOfficialDependencies(projectPath, options) {
   const officialDependencies = []
 
   const packagePath = path.join(projectPath, 'package.json')
@@ -26,17 +26,19 @@ function findOfficialDependencies(projectPath) {
     })
   } catch {}
 
-  const packageLockPath = path.join(projectPath, 'package-lock.json')
-  try {
-    const packageLock = JSON.parse(fs.readFileSync(packageLockPath, 'utf-8'))
-    const dependencies = packageLock.dependencies || {}
-    officialDependencies.forEach(officialDependency => {
-      const exactVersion = dependencies[officialDependency.name]?.version
-      if (exactVersion) {
-        officialDependency.version = exactVersion
-      }
-    })
-  } catch {}
+  if (!options?.skipPackageLock) {
+    const packageLockPath = path.join(projectPath, 'package-lock.json')
+    try {
+      const packageLock = JSON.parse(fs.readFileSync(packageLockPath, 'utf-8'))
+      const dependencies = packageLock.dependencies || {}
+      officialDependencies.forEach(officialDependency => {
+        const exactVersion = dependencies[officialDependency.name]?.version
+        if (exactVersion) {
+          officialDependency.version = exactVersion
+        }
+      })
+    } catch {}
+  }
 
   return officialDependencies
 }

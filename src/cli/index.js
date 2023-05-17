@@ -98,7 +98,7 @@ yargs(hideBin(process.argv))
     argv => argv,
     args => {
       const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
-      const oldOfficialDependencies = findOfficialDependencies(rootPath)
+      const oldOfficialDependencies = findOfficialDependencies(rootPath, { skipPackageLock: true })
       console.log('Checking and updating Zettel official dependencies...')
       try {
         const stdout = childProcess.execSync(
