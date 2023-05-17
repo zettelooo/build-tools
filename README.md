@@ -91,13 +91,6 @@ $ npm install
 It's recommended to use **VS Code** to develop this project.
 You need to have **Prettier** extension to be installed on your IDE.
 
-**Note:** As a Zettel repository, this package uses its own provided scripts by itself!
-You can use the following NPM script to access it (See [this link](https://github.com/zettelooo/build-tools#usage) for details):
-
-```bash
-$ npm run bt -- <command>   # e.g.: npm run bt - update
-```
-
 ## Publication
 
 Publish a new version of the NPM package:
@@ -111,6 +104,13 @@ $ npm version patch   # / minor / major / any other valid semantic version
 
 ## Misc
 
+**Note:** As a Zettel repository, this package uses its own provided scripts by itself!
+
+You can use the following NPM script to access it (See [this link](https://github.com/zettelooo/build-tools#usage) for more details):
+
+```bash
+$ npm run bt -- <command>   # e.g.: npm run bt - update
+```
 
 ------------------
 
