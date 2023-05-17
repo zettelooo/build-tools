@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { findVersion } = require('./versioning')
 
-const OFFICIAL_DEPENDENCIES_PREFIX = '@zettelyay/'
+const OFFICIAL_DEPENDENCIES_PREFIX = '@zettelooo/'
 
 function findOfficialDependencies(projectPath) {
   const officialDependencies = []

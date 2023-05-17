@@ -1,28 +1,34 @@
 {
-  "name": "@zettelyay/build-tools",
+  "name": "@zettelooo/build-tools",
   "description": "Zettel: Build helper tools",
   "version": "1.0.0",
   "files": [
     "src/**"
   ],
-  "main": "src/index.js",
   "types": "src/index.d.ts",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./lib/config": "./src/cli/config.js",
+    "./lib/official": "./src/cli/official.js",
+    "./lib/utilities": "./src/cli/utilities.js",
+    "./lib/versioning": "./src/cli/versioning.js"
+  },
   "bin": {
     "zettel-bt": "./src/cli/index.js"
   },
   "scripts": {
-    "updates.check": "ncu",
-    "updates.install": "rimraf package-lock.json && ncu --upgrade && npm install",
-    "preversion": "git-branch-is master",
-    "postversion": "git push --follow-tags",
-    "gource": "gource --seconds-per-day 0.35 --auto-skip-seconds 0.1 --file-idle-time 0 --max-file-lag 1",
-    "status": "sloc src/",
+    "bt": "node ./src/cli/index.js",
+    "preversion": "npm run bt -- preversion",
+    "postversion": "npm run bt -- postversion",
     "test": "echo \"No test yet.\""
   },
   "dependencies": {
     "git-branch-is": "^4.0.0",
-    "npm-check-updates": "^16.10.9",
-    "rimraf": "^5.0.0"
+    "npm-check-updates": "^16.10.12",
+    "rc-config-loader": "^4.1.2",
+    "sloc": "^0.2.1",
+    "yargs": "^17.7.2"
   },
   "license": "ISC",
   "keywords": [
@@ -38,6 +44,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/zettelyay/build-tools"
+    "url": "https://github.com/zettelooo/build-tools"
   }
 }
