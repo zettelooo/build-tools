@@ -84,7 +84,7 @@ You may provide the following configuration parameters either as the CLI command
 Clone the repository locally:
 
 ```bash
-$ git clone https://github.com/zettelooo/build-tools.git
+$ git clone git@github.com:zettelooo/build-tools.git
 ```
 
 Install the dependencies:
