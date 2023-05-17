@@ -6,8 +6,8 @@
     "src/**",
     ".lintstagedrc.js"
   ],
-  "types": "src/index.d.ts",
-  "main": "src/index.js",
+  "types": "./src/index.d.ts",
+  "main": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
     "./lib/config": "./src/cli/config.js",
