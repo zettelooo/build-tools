@@ -40,8 +40,11 @@ yargs(hideBin(process.argv))
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
         const lintStaged = path.join(await findBinDirectoryPath(), 'lint-staged')
         const lintStagedRc = path.join(__dirname, '..', '..', '.lintstagedrc.js')
-        const stdout = childProcess.execSync(`${lintStaged} --config ${lintStagedRc}`, {
+        const stdout = childProcess.execSync(`${lintStaged} --config ${lintStagedRc} --verbose`, {
           cwd: rootPath,
+          env: {
+            NODE_ENV: 'production',
+          },
           encoding: 'utf8',
           stdio: 'inherit',
         })
