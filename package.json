@@ -1,7 +1,7 @@
 {
   "name": "@zettelooo/build-tools",
   "description": "Zettel: Build helper tools",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "files": [
     "src/**"
   ],
