@@ -6,7 +6,7 @@ const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const { loadRcFile } = require('./config')
 const { findOfficialDependencies } = require('./official')
-const { throwError } = require('./utilities')
+const { throwError, findBinDirectoryPath } = require('./utilities')
 
 const rcConfig = loadRcFile('zettelbt')
 const defaultConfig = {
@@ -35,10 +35,10 @@ yargs(hideBin(process.argv))
     'lint-staged',
     'Runs ESLint on all the staged files with NODE_ENV=production',
     argv => argv,
-    args => {
+    async args => {
       try {
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
-        const lintStaged = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'lint-staged')
+        const lintStaged = path.join(await findBinDirectoryPath(), 'lint-staged')
         const lintStagedRc = path.join(__dirname, '..', '..', '.lintstagedrc.js')
         const stdout = childProcess.execSync(`${lintStaged} --config ${lintStagedRc}`, {
           cwd: rootPath,
@@ -56,10 +56,10 @@ yargs(hideBin(process.argv))
     'check',
     'Checks all the updates available on the dependencies',
     argv => argv,
-    args => {
+    async args => {
       try {
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
-        const ncu = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'ncu')
+        const ncu = path.join(await findBinDirectoryPath(), 'ncu')
         const stdout = childProcess.execSync(`${ncu}`, {
           cwd: rootPath,
           encoding: 'utf8',
@@ -76,10 +76,10 @@ yargs(hideBin(process.argv))
     'update-all',
     'Updates all the dependencies to their latest versions',
     argv => argv,
-    args => {
+    async args => {
       try {
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
-        const ncu = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'ncu')
+        const ncu = path.join(await findBinDirectoryPath(), 'ncu')
         const stdout = childProcess.execSync(`${ncu} --upgrade && npm install --force`, {
           cwd: rootPath,
           encoding: 'utf8',
@@ -141,17 +141,10 @@ yargs(hideBin(process.argv))
     'validate',
     'Validates the correctness of peer dependencies',
     argv => argv,
-    args => {
+    async args => {
       try {
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
-        const checkPeerDependencies = path.join(
-          __dirname,
-          '..',
-          '..',
-          'node_modules',
-          '.bin',
-          'check-peer-dependencies'
-        )
+        const checkPeerDependencies = path.join(await findBinDirectoryPath(), 'check-peer-dependencies')
         const stdout = childProcess.execSync(`${checkPeerDependencies} --runOnlyOnRootDependencies`, {
           cwd: rootPath,
           encoding: 'utf8',
@@ -168,10 +161,10 @@ yargs(hideBin(process.argv))
     'preversion',
     'Pre-version common checks and actions',
     argv => argv,
-    args => {
+    async args => {
       try {
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
-        const gitBranchIs = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'git-branch-is')
+        const gitBranchIs = path.join(await findBinDirectoryPath(), 'git-branch-is')
         const stdout = childProcess.execSync(`${gitBranchIs} master`, {
           cwd: rootPath,
           encoding: 'utf8',
@@ -229,11 +222,11 @@ yargs(hideBin(process.argv))
     'status',
     'Runs sloc to report lines of code',
     argv => argv,
-    args => {
+    async args => {
       try {
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
         const srcPath = path.join(rootPath, args.s || defaultConfig.paths.src)
-        const sloc = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'sloc')
+        const sloc = path.join(await findBinDirectoryPath(), 'sloc')
         const stdout = childProcess.execSync(`${sloc} ${srcPath}`, {
           cwd: rootPath,
           encoding: 'utf8',

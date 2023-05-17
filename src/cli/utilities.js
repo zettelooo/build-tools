@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 
 function throwError(message) {
   console.error(String(message))
@@ -15,7 +16,21 @@ function ensureFolder(folderPath) {
   }
 }
 
+async function findBinDirectoryPath() {
+  const { findUp, pathExists } = await import('find-up')
+  const binDirectoryProjectPath = await findUp(
+    async directory => {
+      const currentBinDirectoryPath = path.join(directory, 'node_modules', '.bin')
+      const currentBinDirectoryPathExists = await pathExists(currentBinDirectoryPath)
+      return currentBinDirectoryPathExists && directory
+    },
+    { cwd: __dirname, type: 'directory' }
+  )
+  return binDirectoryProjectPath && path.join(binDirectoryProjectPath, 'node_modules', '.bin')
+}
+
 module.exports = {
   throwError,
   ensureFolder,
+  findBinDirectoryPath,
 }
