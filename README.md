@@ -55,6 +55,15 @@ Post-version checks and actions (push changes to the remote GIT repository):
 $ zettel-bt postversion
 ```
 
+Catch and store the version into a source file before committing:
+
+```bash
+$ zettel-bt catch-version [file] [indicator]
+```
+
+- [file] is the relative path of the target version containing file
+- [indicator] is anything to indicate the target line of code, maybe as a part of a comment on that line
+
 View GIT history visualized:
 
 ```bash

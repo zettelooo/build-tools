@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const childProcess = require('child_process')
+const fs = require('fs')
 const path = require('path')
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
@@ -188,6 +189,48 @@ yargs(hideBin(process.argv))
       try {
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
         const stdout = childProcess.execSync(`git push --follow-tags`, {
+          cwd: rootPath,
+          encoding: 'utf8',
+          stdio: 'inherit',
+        })
+        // console.log(stdout)
+      } catch ({ stderr }) {
+        throwError(stderr)
+      }
+    }
+  )
+
+  .command(
+    'catch-version [file] [indicator]',
+    'Catches version into the specified file, suitable for NPM "version" script before committing the changes',
+    argv =>
+      argv
+        .positional('file', {
+          description: 'Relative path to the file to put the version in it',
+        })
+        .positional('indicator', {
+          description: 'Line indicator to put the version into, maybe append it to the line as a comment',
+        }),
+    args => {
+      try {
+        const { file, indicator } = args
+        const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
+        const version = JSON.parse(fs.readFileSync(path.join(rootPath, 'package.json'), 'utf-8')).version ?? ''
+        if (!file || !indicator) {
+          console.error(`Invalid arguments, try "<script> ${args._[0]} -h" for more information.`)
+          process.exit(1)
+        }
+        const filePath = path.join(rootPath, file)
+        fs.writeFileSync(
+          filePath,
+          fs
+            .readFileSync(filePath, 'utf8')
+            .split('\n')
+            .map(line => (!line.includes(indicator) ? line : line.replace(/\d+.\d+.\d+/, version)))
+            .join('\n'),
+          'utf8'
+        )
+        const stdout = childProcess.execSync(`git add --all .`, {
           cwd: rootPath,
           encoding: 'utf8',
           stdio: 'inherit',
