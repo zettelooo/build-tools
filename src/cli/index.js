@@ -84,7 +84,7 @@ yargs(hideBin(process.argv))
       try {
         const rootPath = path.join(process.cwd(), args.r || defaultConfig.paths.root)
         const ncu = path.join(await findBinDirectoryPath(), 'ncu')
-        const stdout = childProcess.execSync(`${ncu} --upgrade && npm install --force`, {
+        const stdout = childProcess.execSync(`${ncu} --upgrade && npm cache clean --force && npm install --force`, {
           cwd: rootPath,
           encoding: 'utf8',
           stdio: 'inherit',
@@ -106,7 +106,9 @@ yargs(hideBin(process.argv))
       console.log('Checking and updating Zettel official dependencies...')
       try {
         const stdout = childProcess.execSync(
-          `npm install --force ${oldOfficialDependencies.map(dependency => `${dependency.name}@latest`).join(' ')}`,
+          `npm cache clean --force && npm install --force ${oldOfficialDependencies
+            .map(dependency => `${dependency.name}@latest`)
+            .join(' ')}`,
           {
             cwd: rootPath,
             encoding: 'utf8',
